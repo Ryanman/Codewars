@@ -9,6 +9,7 @@ public static class Kata
         "F3RF5LF7",
         "FFFR345F2LL",
         "FFF(R3)45F2LL"
+        ,"022L("
     };
 
     private static Dictionary<char, string> _colors = new Dictionary<char, string>
@@ -50,7 +51,7 @@ public static class Kata
             colors.Add((char)(i + 48)
                 , "orange");
         }
-        var previousColor = "start";
+        var previousColor = "";
         for (int i = 0; i < code.Length; i++)
         {
             var color = colors[code[i]];
@@ -66,13 +67,13 @@ public static class Kata
                 }
             }
             sb.Append(code[i]);
-            if (i == code.Length - 1 && previousColor != "")
+            if (i == code.Length - 1 && color != "")
             {
                 sb.Append("</span>");
             }
             previousColor = color;
         }
-        return sb.ToString(7,sb.Length-7);
+        return sb.ToString();
     }
 
     public static bool NoStyle(this string str)
