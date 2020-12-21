@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-public class Kata
+public static class Kata
 {
     private static List<string> _codes = new List<string>
     {
         "F3RF5LF7",
-        "FFFR345F2LL"
+        "FFFR345F2LL",
+        "FFF(R3)45F2LL"
     };
 
     private static Dictionary<char, string> _colors = new Dictionary<char, string>
@@ -42,29 +42,28 @@ public class Kata
         var sb = new StringBuilder();
         var colors = new Dictionary<char, string>
         {
-            { 'F',"pink" },
-            { 'L',"red" },
-            { 'R',"green" },
-            { '(',"" },
-            { ')',"" }
+            { 'F',"pink" },{ 'L',"red" },{ 'R',"green" },
+            { '(',"" },{ ')',"" }
         };
         for (int i = 0; i < 10; i++)
         {
-            colors.Add(i.ToString()[0], "orange");
+            colors.Add((char)(i + 48)
+                , "orange");
         }
         var previousColor = "start";
-        code = "(" + code;
-        for (int i = 1; i < code.Length; i++)
+        for (int i = 0; i < code.Length; i++)
         {
             var color = colors[code[i]];
-            if (color != previousColor && color != "")
+            if (color != previousColor)
             {
-                sb.Append($"</span><span style=\"color: {color}\">");
-            }
-            if (color == ""
-                && previousColor != "")
-            {
-                sb.Append("</span>");
+                if (previousColor != "")
+                {
+                    sb.Append("</span>");
+                }
+                if (color != "")
+                {
+                    sb.Append($"<span style=\"color: {color}\">");
+                }
             }
             sb.Append(code[i]);
             if (i == code.Length - 1 && previousColor != "")
@@ -73,20 +72,11 @@ public class Kata
             }
             previousColor = color;
         }
-        //foreach (var ch in code)
-        //{
-        //    var color = colors[ch];
-        //    if (color == "" && previousColor != "")
-        //    {
-        //        sb.Append("</span>");
-        //    }
-        //    if (color != previousColor && color != "")
-        //    {
-        //        sb.Append($"</span><span style=\"color: {color}\">");
-        //    }
-        //    sb.Append(ch);
-        //    previousColor = color;
-        //}
         return sb.ToString(7,sb.Length-7);
+    }
+
+    public static bool NoStyle(this string str)
+    {
+        return str == "";
     }
 }
