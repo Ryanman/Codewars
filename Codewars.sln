@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2D659F78-CC1E-4576-B7F2-B63172D0C4E6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BD2335E5-0FEF-4EC6-BAA0-2F863ED05B78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "src\ConsoleApp1\ConsoleApp1.csproj", "{8785D5A8-5579-43AF-9D6D-DCA6BF31E206}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codewars", "src\ConsoleApp1\Codewars.csproj", "{8785D5A8-5579-43AF-9D6D-DCA6BF31E206}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +25,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8785D5A8-5579-43AF-9D6D-DCA6BF31E206} = {2D659F78-CC1E-4576-B7F2-B63172D0C4E6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {754219B4-7297-45F8-9C82-22747CFED679}
 	EndGlobalSection
 EndGlobal
