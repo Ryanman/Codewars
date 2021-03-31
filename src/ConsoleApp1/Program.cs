@@ -1,83 +1,155 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Text;
 
-public class Kata
+namespace Scratchpad
 {
-    public static void Main()
+    static class Program
     {
-        var input = "";
-        while (true)
+        static void Main(string[] args)
         {
-            Console.WriteLine($"Enter Number, or E for Exit");
-            input = Console.ReadLine();
-            if (input == "e")
-                return;
-            var encrypted = Encrypt("WEAREDISCOVEREDFLEEATONCE", 3);
-            Console.WriteLine($"{encrypted}");
-            Console.ReadLine();
-        }
-    }
+            //var a = new string[] { "pim", "pom","sander", "amy", "ann", "michael" };
+            //var b = new string[] { "9999999", "777888999" };
+            //var p = "88999";
 
-    /*
-     Do-while loop for string
-    Use modulus for number of rails to determine increment or decrement for SB index
-    if (0 or mod0) 
-        toggle = !toggle
-    Inc or Dec
-     */
-    public static string Encrypt(string str, int numberOfRails)
-    {
-        var rails = new Dictionary<int, StringBuilder>();
-        for (int i = 0; i < numberOfRails; i++) 
-        {
-            rails.Add(i, new StringBuilder());
-        }
-        var ascend = false;
-        var railIndex = 0;
-        for (int i = 0; i < str.Length; i++)
-        {
-            if (railIndex == 0 || railIndex % numberOfRails == (numberOfRails - 1))
-                ascend = !ascend;
-            rails[railIndex].Append(str[i]);
-            railIndex = (ascend == true) ?
-                railIndex + 1 : railIndex -1;
-        }
-        for (int i = 1; i < numberOfRails; i++)
-        {
-            rails[0].Append(rails[i]);
-        }
-        return rails[0].ToString();
-    }
+            //var Y = 2014;
+            //var A = "April";
+            //var B = "May";
+            //var W = "Wednesday";
 
-    //Dis gon be harder
-    /*
-     * To build Rail 0: str[0] + str[ (numberOfRails -2) + 1 + (numberOfRails -2) ]
-     * To build Rail [numRails]: str[numRails-1] + str[(numRails -2) + 1 + (numRails -2)]
-     * To build Rail 1: str[1] + str[ ]
-     */
-    public static string Decrypt(string str, int numRails)
-    {
-        var rails = new Dictionary<int, StringBuilder>();
-        for (int i = 0; i < numRails; i++)
-        {
-            rails.Add(i, new StringBuilder());
+            var N = 4;
+            var A = new int[] { 1, 2, 4, 4, 3 };
+            var B = new int[] { 2, 3, 1, 3, 1 };
+
+            var s = solutionVertex2(N, A, B);
+
+            Console.WriteLine($"Solution: {s}");
         }
-        var ascend = false;
-        var railIndex = 0;
-        for (int i = str.Length; i < str.Length; i++)
+
+        public static bool solutionVertex2(int N, int[] A, int[] B)
         {
-            if (railIndex == 0 || railIndex % numRails == (numRails - 1))
-                ascend = !ascend;
-            rails[railIndex].Append(str[i]);
-            railIndex = (ascend == true) ?
-                railIndex + 1 : railIndex - 1;
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            var graph = new HashSet<string>();
+            //Build graph
+            for (int i = 0; i < A.Length; i++)
+            {
+                //Can we get string interpolation please?
+                var forward = A[i].ToString() + "-" + B[i].ToString();
+                graph.Add(forward);
+                var backward = B[i].ToString() + "-" + A[i].ToString();
+                graph.Add(backward);
+
+            }
+            //Attempt to traverse
+            for (int i = 1; i < N; i++)
+            {
+                var key = i.ToString() + "-" + (i + 1).ToString();
+                if (!graph.Contains(key))
+                    return false;
+            }
+            return true;
         }
-        for (int i = 1; i < numRails; i++)
+
+        public static bool solutionVertex(int N, int[] A, int[] B)
         {
-            rails[0].Append(rails[i]);
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            var graph = new Dictionary<int, List<int>>();
+            //Build graph
+            for (int i = 0; i < A.Length; i++)
+            {
+                var startNode = A[i];
+                var endNode = B[i];
+                if (!graph.ContainsKey(startNode))
+                    graph.Add(startNode, new List<int>());
+                if (!graph[startNode].Contains(endNode))
+                    graph[startNode].Add(endNode);
+
+                if (!graph.ContainsKey(endNode))
+                    graph.Add(endNode, new List<int>());
+                if (!graph[endNode].Contains(startNode))
+                    graph[endNode].Add(startNode);
+
+            }
+            //Attempt to traverse
+            for (int i = 1; i < N; i++)
+            {
+                if (!graph.ContainsKey(i))
+                    return false;
+                if (!graph[i].Contains(i + 1))
+                    return false;
+            }
+            return true;
         }
-        return rails[0].ToString();
+
+        public static int solutionVacation(int Y, string A, string B, string W)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            //Departs monday, arrives sunday. Means only whole weeks
+            //Get total days in vacation time
+            //subtract days before the first monday
+            //subtract days after last sunday
+
+            var startMonth = DateTime.ParseExact(A, "MMMM", CultureInfo.CurrentCulture).Month;
+            var endMonth = DateTime.ParseExact(B, "MMMM", CultureInfo.CurrentCulture).Month;
+
+            var startDate = new DateTime(Y, startMonth, 1);
+            var endDate = new DateTime(Y, endMonth, 1)
+                .AddMonths(1).AddDays(-1);//Get end of month
+            while (startDate.DayOfWeek != DayOfWeek.Monday)
+            {
+                startDate = startDate.AddDays(1);
+            }
+            while (endDate.DayOfWeek != DayOfWeek.Sunday)
+            {
+                endDate = endDate.AddDays(-1);
+            }
+            var totalDays = (endDate - startDate).Days + 1;
+            return (totalDays) / 7;
+        }
+
+        public static string solutionPhoneString(string S)
+        {
+            var sb = new StringBuilder();
+            var numInts = 0;
+            for (int i = 0; i < S.Length; i++)
+            {
+
+                if (char.IsDigit(S[i]))
+                {
+                    numInts++;
+                    string toAppend = (numInts % 3 == 0 && (i < S.Length - 1)) ?
+                            S[i] + "-" :
+                            S[i].ToString();
+                    sb.Append(toAppend);
+                }
+            }
+            if (sb.Length > 3
+                && sb[sb.Length - 2] == '-')
+            {
+                var digit = sb[sb.Length - 3];
+                sb[sb.Length - 3] = '-';
+                sb[sb.Length - 2] = digit;
+
+            }
+            return sb.ToString();
+        }
+
+        public static string solutionPhoneSearch(string[] A, string[] B, string P)
+        {
+            // write your code in C# 6.0 with .NET 4.5 (Mono)
+            var name = "";
+            for (int i = 0; i < B.Length; i++)
+            {
+                if (!B[i].Contains(P))
+                    continue;
+                var foundName = A[i];
+                if (name == "" || string.Compare(foundName, name) < 0)
+                    name = foundName;
+            }
+            if (name == "")
+                name = "NO CONTACT";
+            return name;
+        }
     }
 }
