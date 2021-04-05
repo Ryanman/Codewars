@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Scratchpad
@@ -18,13 +19,78 @@ namespace Scratchpad
             //var B = "May";
             //var W = "Wednesday";
 
-            var N = 4;
-            var A = new int[] { 1, 2, 4, 4, 3 };
-            var B = new int[] { 2, 3, 1, 3, 1 };
+            var A = 1;
+            var B = 99999;
 
-            var s = solutionVertex2(N, A, B);
+            //Console.WriteLine($"Solution: {solutionCarry(123, 456)}");
+            //Console.WriteLine($"Solution: {solutionCarry(555, 555)}"); 
+            //Console.WriteLine($"Solution: {solutionCarry(900, 11)}"); //0 expected, actual 3
+            //Console.WriteLine($"Solution: {solutionCarry(145, 55)}");//2 expected, actual 1
+            //Console.WriteLine($"Solution: {solutionCarry(0, 0)}");
+            //Console.WriteLine($"Solution: {solutionCarry(1, 99999)}");
+            //Console.WriteLine($"Solution: {solutionCarry(999045, 1055)}");
+            //Console.WriteLine($"Solution: {solutionCarry(101, 809)}"); //1 expected, actual 2
+            //Console.WriteLine($"Solution: {solutionCarry(189, 209)}"); //1 needed, actual 3
 
-            Console.WriteLine($"Solution: {s}");
+            var solution = findWord(new string[] { "U>N", "G>A", "R>Y", "H>U", "N>G", "A>R" }); // HUNGARY
+            Console.WriteLine($"{solution}");
+            solution = findWord(new string[] { "I>F", "W>I", "S>W", "F>T" }); // SWIFT
+            Console.WriteLine($"{solution}");
+            solution = findWord(new string[] { "R>T", "A>L", "P>O", "O>R", "G>A", "T>U", "U>G" }); // PORTUGAL
+            Console.WriteLine($"{solution}");
+            solution = findWord(new string[] { "W>I", "R>L", "T>Z", "Z>E", "S>W", "E>R", "L>A", "A>N", "N>D", "I>T" }); // SWITZERLAND
+            Console.WriteLine($"{solution}");
+        }
+
+        public static string findWord(string[] A)
+        {
+            var leftLetters = A.Select(x => x[0]).ToList();
+            var rightLetters = A.Select(x => x[2]).ToList();
+            var letter = leftLetters
+                .Except(rightLetters)
+                .SingleOrDefault();
+
+            var sb = new StringBuilder();
+
+            for (int i = 0; i < A.Length; i++)
+            {
+                sb.Append(letter);
+                letter = A.SingleOrDefault(x => x[0] == letter)[2];
+            }
+            sb.Append(letter);
+
+            return sb.ToString();
+        }
+
+        public static int solutionCarry(int A, int B)
+        {
+            var numCarries = 0;
+            var divisor = 1;
+            var carry = false;
+            while (A > 0 || B > 0)
+            {
+                var aNum = A % (divisor * 10);
+                var bNum = B % (divisor* 10);
+
+                var columnSum = ((aNum + bNum) / divisor) 
+                    + (carry ? 1 : 0);
+
+                if (columnSum >= 10)
+                {
+                    numCarries++;
+                    carry = true;
+                }
+                else
+                {
+                    carry = false;
+                }
+                    
+
+                A -= aNum;
+                B -= bNum;
+                divisor *= 10;
+            }
+            return numCarries;
         }
 
         public static bool solutionVertex2(int N, int[] A, int[] B)
