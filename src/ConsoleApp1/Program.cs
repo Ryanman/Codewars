@@ -69,10 +69,11 @@ namespace Scratchpad
             var carry = false;
             while (A > 0 || B > 0)
             {
-                var aNum = A % (divisor * 10);
-                var bNum = B % (divisor* 10);
+                divisor *= 10;
+                var aNum = A % (divisor);
+                var bNum = B % (divisor);
 
-                var columnSum = ((aNum + bNum) / divisor) 
+                var columnSum = ((aNum + bNum) / (divisor/ 10)) 
                     + (carry ? 1 : 0);
 
                 if (columnSum >= 10)
@@ -83,12 +84,10 @@ namespace Scratchpad
                 else
                 {
                     carry = false;
-                }
-                    
+                }                   
 
                 A -= aNum;
-                B -= bNum;
-                divisor *= 10;
+                B -= bNum;                
             }
             return numCarries;
         }
