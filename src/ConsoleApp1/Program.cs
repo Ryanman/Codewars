@@ -32,17 +32,17 @@ namespace Scratchpad
             //Console.WriteLine($"Solution: {solutionCarry(101, 809)}"); //1 expected, actual 2
             //Console.WriteLine($"Solution: {solutionCarry(189, 209)}"); //1 needed, actual 3
 
-            var solution = findWord(new string[] { "U>N", "G>A", "R>Y", "H>U", "N>G", "A>R" }); // HUNGARY
+            var solution = solutionFindWord(new string[] { "U>N", "G>A", "R>Y", "H>U", "N>G", "A>R" }); // HUNGARY
             Console.WriteLine($"{solution}");
-            solution = findWord(new string[] { "I>F", "W>I", "S>W", "F>T" }); // SWIFT
+            solution = solutionFindWord(new string[] { "I>F", "W>I", "S>W", "F>T" }); // SWIFT
             Console.WriteLine($"{solution}");
-            solution = findWord(new string[] { "R>T", "A>L", "P>O", "O>R", "G>A", "T>U", "U>G" }); // PORTUGAL
+            solution = solutionFindWord(new string[] { "R>T", "A>L", "P>O", "O>R", "G>A", "T>U", "U>G" }); // PORTUGAL
             Console.WriteLine($"{solution}");
-            solution = findWord(new string[] { "W>I", "R>L", "T>Z", "Z>E", "S>W", "E>R", "L>A", "A>N", "N>D", "I>T" }); // SWITZERLAND
+            solution = solutionFindWord(new string[] { "W>I", "R>L", "T>Z", "Z>E", "S>W", "E>R", "L>A", "A>N", "N>D", "I>T" }); // SWITZERLAND
             Console.WriteLine($"{solution}");
         }
 
-        public static string findWord(string[] A)
+        public static string solutionFindWord(string[] A)
         {
             var leftLetters = A.Select(x => x[0]).ToList();
             var rightLetters = A.Select(x => x[2]).ToList();
