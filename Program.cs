@@ -16,6 +16,7 @@ public class Kata
         _map = new Dictionary<string, bool[]>();
         _maze = maze.Replace("\n","");
         _rowDim = _maze.Length / _colDim;
+        Console.WriteLine(maze);
         return Search(0, 0, 4);
     }
 
@@ -50,24 +51,6 @@ public class Kata
                    ".W.\n" +
                    "...",
 
-                ".W.\n" +
-                ".W.\n" +
-                "W..",
-
-                "......\n" +
-                "......\n" +
-                "......\n" +
-                "......\n" +
-                "......\n" +
-                "......",
-
-                "......\n" +
-                "......\n" +
-                "......\n" +
-                "......\n" +
-                ".....W\n" +
-                "....W.",
-
                 ".W...W\n" +
                 ".W.W.W\n" +
                 ".W.W.W\n" +
@@ -81,6 +64,8 @@ public class Kata
                 "W.WWWW\n" +
                 "W.....\n" +
                 "...W..",
+
+                ".",
 
                 "......\n" +
                 ".W.W.W\n" +
