@@ -46,28 +46,42 @@ public class Kata
                    ".W.\n" +
                    "...",
 
-               b = ".W.\n" +
-                   ".W.\n" +
-                   "W..",
+            b = ".W.\n" +
+                ".W.\n" +
+                "W..",
 
-               c = "......\n" +
-                   "......\n" +
-                   "......\n" +
-                   "......\n" +
-                   "......\n" +
-                   "......",
+            c = "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                "......",
 
-               d = "......\n" +
-                   "......\n" +
-                   "......\n" +
-                   "......\n" +
-                   ".....W\n" +
-                   "....W.";
+            d = "......\n" +
+                "......\n" +
+                "......\n" +
+                "......\n" +
+                ".....W\n" +
+                "....W.",
+            e =".W...W\n" +
+                ".W.W.W\n" +
+                ".W.W.W\n" +
+                ".W.W.W\n" +
+                ".W.W.W\n" +
+                "...W..",
+            f = "......\n" +
+                "WWWW.W\n" +
+                "W....W\n" +
+                "W.WWWW\n" +
+                "W.....\n" +
+                "...W..";
 
         Console.WriteLine($"Path for a possible? {PathFinder(a)}");
         Console.WriteLine($"Path for b possible? {PathFinder(b)}");
         Console.WriteLine($"Path for c possible? {PathFinder(c)}");
-        Console.WriteLine($"Path for a possible? {PathFinder(d)}");
+        Console.WriteLine($"Path for d possible? {PathFinder(d)}");
+        Console.WriteLine($"Path for e possible? {PathFinder(e)}");
+        Console.WriteLine($"Path for f possible? {PathFinder(f)}");
         Console.ReadLine();
     }
 }
