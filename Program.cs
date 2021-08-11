@@ -17,7 +17,9 @@ public class Kata
         _maze = maze.Replace("\n","");
         _rowDim = _maze.Length / _colDim;
         Console.WriteLine(maze);
-        return Search(0, 0, 4);
+        var result = Search(0, 0, 4);
+        Console.WriteLine(result);
+        return result;
     }
 
     private static bool Search(int i, int j, int direction)
