@@ -5,45 +5,39 @@ using System.Text;
 
 public class Kata
 {
-    private static int _colDim;
-    private static int _rowDim;
-    private static Dictionary<string,bool[]> _map; //E,S,W,N
+    private static int _dim;
+    private static Dictionary<string, bool> _map;
     private static string _maze;
 
     public static bool PathFinder(string maze)
     {
-        _colDim = maze.IndexOf('\n');
-        _map = new Dictionary<string, bool[]>();
-        _maze = maze.Replace("\n","");
-        _rowDim = _maze.Length / _colDim;
-        Console.WriteLine(maze);
-        var result = Search(0, 0, 4);
-        Console.WriteLine(result);
+        _dim = Math.Max(maze.IndexOf('\n'),1);
+        _map = new Dictionary<string, bool>();
+        _maze = maze.Replace("\n", "");
+        var result = Search(0, 0);
         return result;
     }
 
-    private static bool Search(int i, int j, int direction)
+    private static bool Search(int i, int j)
     {
-        if (i >= _rowDim || j >= _colDim || i < 0 || j < 0)
+        if (i >= _dim || j >= _dim || i < 0 || j < 0)
             return false;
-        if (i == _rowDim - 1 && j == _colDim - 1)
+        if (i == _dim - 1 && j == _dim - 1)
             return true;
         var key = $"{i},{j}";
-        if (!_map.ContainsKey(key))        
-            _map.Add(key, new bool[5]);        
-        if (_map[key][direction] //Already visited
-            || _maze[(i * _colDim) + j] == 'W')
-            return false;        
-        _map[key][direction] = true;//Mark as visited
+        if (_map.ContainsKey(key) //Already visited or wall
+            || _maze[(i * _dim) + j] == 'W')
+            return false;
+        _map.Add(key, true);//Mark as visited
         //E,S,W,N
-        if (Search(i , j + 1, 0) == true)
-            return true;        
-        if (Search(i + 1, j, 1) == true)        
-            return true;        
-        if (Search(i, j -1, 2) == true)        
-            return true;        
-        if (Search(i -1, j, 3) == true)        
-            return true;        
+        if (Search(i, j + 1) == true)
+            return true;
+        if (Search(i + 1, j) == true)
+            return true;
+        if (Search(i, j - 1) == true)
+            return true;
+        if (Search(i - 1, j) == true)
+            return true;
         return false;
     }
 
@@ -78,8 +72,9 @@ public class Kata
 
         foreach (var map in maps)
         {
-            Console.WriteLine(map);
-            Console.WriteLine($"Result: {PathFinder(map)}\r\n");
+            PathFinder(map);
+            //Console.WriteLine(map);
+            //Console.WriteLine($"Result: {PathFinder(map)}\r\n");
         }
         Console.ReadLine();
     }
