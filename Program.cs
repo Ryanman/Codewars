@@ -6,13 +6,13 @@ using System.Text;
 public class Kata
 {
     private static int _dim;
-    private static bool[,]_map;
+    private static Dictionary<string,bool> _map;
     private static string _maze;
 
     public static bool PathFinder(string maze)
     {
         _dim = maze.IndexOf('\n');
-        _map = new bool[_dim,_dim];
+        _map = new Dictionary<string, bool>();
         _maze = maze.Replace("\n","");
         return Search(0, 0);
     }
@@ -23,10 +23,11 @@ public class Kata
             return false;
         if (i == _dim - 1 && j == _dim - 1)
             return true;
-        if (_map[i,j] //Already visited
+        var key = $"{i},{j}";
+        if (_map.ContainsKey(key) //Already visited
             || _maze[(i * _dim) + j] == 'W')
             return false;
-        _map[i, j] = true; //Mark as visited
+        _map.Add(key, true);//Mark as visited
         //Right, Down, Left, Up
         if (Search(i , j + 1) == true)
             return true;        
@@ -64,8 +65,8 @@ public class Kata
                    "....W.";
 
         Console.WriteLine($"Path for a possible? {PathFinder(a)}");
-        Console.WriteLine($"Path for a possible? {PathFinder(b)}");
-        Console.WriteLine($"Path for a possible? {PathFinder(c)}");
+        Console.WriteLine($"Path for b possible? {PathFinder(b)}");
+        Console.WriteLine($"Path for c possible? {PathFinder(c)}");
         Console.WriteLine($"Path for a possible? {PathFinder(d)}");
         Console.ReadLine();
     }
