@@ -5,11 +5,7 @@ using System.Text;
 
 public class Kata
 {
-    private static int _numUniqueChars = 0;
     private static Dictionary<char, int> _characters;
-    private static LinkedListNode<int> _median;
-    private static List<int> _productTracker = new List<int>();
-
     /*
     Combinations = word.len! / ((#LetterX!)(#LetterY!).....)
     */
@@ -57,8 +53,6 @@ public class Kata
         };
         foreach (var c in value)
         {
-            if (_characters[c] == 0)
-                _numUniqueChars++;
             _characters[c]++;
         }
         var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
@@ -70,7 +64,7 @@ public class Kata
     {
         if (value.Length == 1)
             return 1;
-        var lchar = value[0];
+        var leadCharacter = value[0];
         long denom = 1;
         foreach (var c in _characters)
         {
@@ -83,15 +77,13 @@ public class Kata
         var numPartitions = 0;
         foreach (var c in _characters)
         {
-            if (c.Key == lchar)
+            if (c.Key == leadCharacter)
                 partitionIndex = numPartitions;
             numPartitions += c.Value;            
         }
-        var partitionValue = //(partitionIndex / numPartitions) * numPossibleWords 
+        var partitionValue =
             (partitionIndex * numPossibleWords) / numPartitions;
-        _characters[lchar]--;
-        if (_characters[lchar] == 0)
-            _numUniqueChars--;
+        _characters[leadCharacter]--;
         return partitionValue + AddPositions(value.Substring(1));
     }
 
