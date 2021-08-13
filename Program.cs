@@ -5,12 +5,7 @@ using System.Text;
 
 public class Kata
 {
-    private static long _number;
-    private static int _numUniqueChars = 0;
     private static Dictionary<char, int> _characters;
-    private static LinkedListNode<int> _median;
-    private static List<int> _productTracker = new List<int>();
-
     /*
     Combinations = word.len! / ((#LetterX!)(#LetterY!).....)
     */
@@ -27,11 +22,34 @@ public class Kata
 
     public static long ListPosition(string value)
     {
-        _number = 0;
         _characters = new Dictionary<char, int>()
         {
             {'A',0},
-            {'B',0}
+            {'B',0},
+            {'C',0},
+            {'D',0},
+            {'E',0},
+            {'F',0},
+            {'G',0},
+            {'H',0},
+            {'I',0},
+            {'J',0},
+            {'K',0},
+            {'L',0},
+            {'M',0},
+            {'N',0},
+            {'O',0},
+            {'P',0},
+            {'Q',0},
+            {'R',0},
+            {'S',0},
+            {'T',0},
+            {'U',0},
+            {'V',0},
+            {'W',0},
+            {'X',0},
+            {'Y',0},
+            {'Z',0},
         };
         foreach (var c in value)
         {
@@ -39,7 +57,7 @@ public class Kata
                 _numUniqueChars++;
             _characters[c]++;
         }
-        var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
+        //var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
         
         return AddPositions(value);
     }
@@ -65,14 +83,12 @@ public class Kata
                 partitionIndex = numPartitions;
             numPartitions += c.Value;            
         }
-        var x = (2 * 6) / 4;
-        var partitionValue = //(partitionIndex / numPartitions) * numPossibleWords 
+        var partitionValue =
             (partitionIndex * numPossibleWords) / numPartitions;
-        _number += partitionValue;
         _characters[lchar]--;
         if (_characters[lchar] == 0)
             _numUniqueChars--;
-        return _number + AddPositions(value.Substring(1));
+        return partitionValue + AddPositions(value.Substring(1));
     }
 
     private static long Factorial(long n)
@@ -87,12 +103,12 @@ public class Kata
         Tuple<string, int>[] testCases =
         {
             
-            //new Tuple<string,int>("ABAB",2),
-            //new Tuple<string,int>("A",1),
-            //new Tuple<string,int>("AAAB",1),
+            new Tuple<string,int>("ABAB",2),
+            new Tuple<string,int>("A",1),
+            new Tuple<string,int>("AAAB",1),
             new Tuple<string,int>("BAAA",4),
-            //new Tuple<string,int>("QUESTION",24527),
-            //new Tuple<string,int>("BOOKKEEPER",10743),
+            new Tuple<string,int>("QUESTION",24527),
+            new Tuple<string,int>("BOOKKEEPER",10743),
         };
 
         foreach (var tc in testCases)
