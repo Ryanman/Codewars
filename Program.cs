@@ -5,7 +5,11 @@ using System.Text;
 
 public class Kata
 {
+    private static int _numUniqueChars = 0;
     private static Dictionary<char, int> _characters;
+    private static LinkedListNode<int> _median;
+    private static List<int> _productTracker = new List<int>();
+
     /*
     Combinations = word.len! / ((#LetterX!)(#LetterY!).....)
     */
@@ -57,7 +61,7 @@ public class Kata
                 _numUniqueChars++;
             _characters[c]++;
         }
-        //var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
+        var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
         
         return AddPositions(value);
     }
@@ -83,7 +87,7 @@ public class Kata
                 partitionIndex = numPartitions;
             numPartitions += c.Value;            
         }
-        var partitionValue =
+        var partitionValue = //(partitionIndex / numPartitions) * numPossibleWords 
             (partitionIndex * numPossibleWords) / numPartitions;
         _characters[lchar]--;
         if (_characters[lchar] == 0)
@@ -107,7 +111,7 @@ public class Kata
             new Tuple<string,int>("A",1),
             new Tuple<string,int>("AAAB",1),
             new Tuple<string,int>("BAAA",4),
-            new Tuple<string,int>("QUESTION",24527),
+            new Tuple<string,int>("QUESTION",24572),
             new Tuple<string,int>("BOOKKEEPER",10743),
         };
 
