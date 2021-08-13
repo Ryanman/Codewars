@@ -7,11 +7,7 @@ public class Kata
 {
     private static long _number;
     private static int _numUniqueChars = 0;
-    private static Dictionary<char, int> _characters = new Dictionary<char, int>()
-    {
-        {'A',0},
-        {'B',0}
-    };
+    private static Dictionary<char, int> _characters;
     private static LinkedListNode<int> _median;
     private static List<int> _productTracker = new List<int>();
 
@@ -31,7 +27,12 @@ public class Kata
 
     public static long ListPosition(string value)
     {
-        
+        _number = 0;
+        _characters = new Dictionary<char, int>()
+        {
+            {'A',0},
+            {'B',0}
+        };
         foreach (var c in value)
         {
             if (_characters[c] == 0)
@@ -53,19 +54,20 @@ public class Kata
         {
             denom *= Factorial(c.Value == 0 ? 1 : c.Value);
         }
-        var numWords = Factorial(value.Length)
+        var numPossibleWords = Factorial(value.Length)
             / denom;
 
         var partitionIndex = 0;
+        var numPartitions = 0;
         foreach (var c in _characters)
         {
             if (c.Key == lchar)
-                break;
-            if (c.Value > 0)
-                partitionIndex++;
+                partitionIndex = numPartitions;
+            numPartitions += c.Value;            
         }
-
-        var partitionValue = (partitionIndex / _numUniqueChars) * numWords;
+        var x = (2 * 6) / 4;
+        var partitionValue = //(partitionIndex / numPartitions) * numPossibleWords 
+            (partitionIndex * numPossibleWords) / numPartitions;
         _number += partitionValue;
         _characters[lchar]--;
         if (_characters[lchar] == 0)
@@ -85,19 +87,19 @@ public class Kata
         Tuple<string, int>[] testCases =
         {
             
-            new Tuple<string,int>("ABAB",2),
-            new Tuple<string,int>("A",1),
-            new Tuple<string,int>("AAAB",1),
+            //new Tuple<string,int>("ABAB",2),
+            //new Tuple<string,int>("A",1),
+            //new Tuple<string,int>("AAAB",1),
             new Tuple<string,int>("BAAA",4),
-            new Tuple<string,int>("QUESTION",24527),
-            new Tuple<string,int>("BOOKKEEPER",10743),
+            //new Tuple<string,int>("QUESTION",24527),
+            //new Tuple<string,int>("BOOKKEEPER",10743),
         };
 
         foreach (var tc in testCases)
         {
             var position = ListPosition(tc.Item1);
-            Console.WriteLine($"Word: {tc.Item1}\r\n\tExpected: {tc.Item2}\r\n\tActual: {position}");
+            Console.WriteLine($"Word: {tc.Item1}\r\n\tExpected: {tc.Item2}\r\n\tActual: {position}");            
         }
-        
+        Console.ReadLine();
     }
 }
