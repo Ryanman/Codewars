@@ -5,24 +5,10 @@ using System.Text;
 
 public class Kata
 {
-    private static Dictionary<char, int> _characters;
-    /*
-    Combinations = word.len! / ((#LetterX!)(#LetterY!).....)
-    */
-
-    /*
-     * Assuming 300 words
-     * Index algo =
-     * foreach letter
-     *  # of partitions (ABC = 3 partitions)
-     *  Get to 0-based index for that partition (B = 100, A = 0, C = 200)
-     *  Decrement number of letters available in ordered dic
-     *  Recurse?
-     */
-
+    private static Dictionary<char, int> _characterCounts;
     public static long ListPosition(string value)
     {
-        _characters = new Dictionary<char, int>()
+        _characterCounts = new Dictionary<char, int>()
         {
             {'A',0},
             {'B',0},
@@ -53,10 +39,8 @@ public class Kata
         };
         foreach (var c in value)
         {
-            _characters[c]++;
-        }
-        var maxNumChars = _characters.Values.Max(); //Do the thing to simplify factorials here if there are errors https://www.chilimath.com/lessons/intermediate-algebra/dividing-factorials/
-        
+            _characterCounts[c]++;
+        }        
         return AddPositions(value);
     }
 
@@ -66,25 +50,19 @@ public class Kata
             return 1;
         var leadCharacter = value[0];
         long denom = 1;
-        foreach (var c in _characters)
-        {
-            denom *= Factorial(c.Value == 0 ? 1 : c.Value);
-        }
-        var numPossibleWords = Factorial(value.Length)
-            / denom;
-
         var partitionIndex = 0;
         var numPartitions = 0;
-        foreach (var c in _characters)
+        foreach (var c in _characterCounts)
         {
+            denom *= Factorial(c.Value == 0 ? 1 : c.Value);
             if (c.Key == leadCharacter)
                 partitionIndex = numPartitions;
-            numPartitions += c.Value;            
+            numPartitions += c.Value;
         }
-        var partitionValue =
-            (partitionIndex * numPossibleWords) / numPartitions;
-        _characters[leadCharacter]--;
-        return partitionValue + AddPositions(value.Substring(1));
+        var numPossibleWords = Factorial(value.Length) / denom;
+        var partitionValue = (partitionIndex * numPossibleWords) / numPartitions;
+        _characterCounts[leadCharacter]--;
+        return partitionValue + AddPositions(value[1..]);
     }
 
     private static long Factorial(long n)
