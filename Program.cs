@@ -5,11 +5,11 @@ using System.Text;
 
 public class Kata
 {
-    private static int _number;
+    private static int _number;    
     private static double _productSum = 0;
     private static LinkedList<int> _productList = new LinkedList<int>();
     private static LinkedListNode<int> _median;
-    private static List<int> _productTracker = new List<int>();
+    private static List<int[,]> _genericInput = new List<int[,]>();
 
     public static void Main()
     {
