@@ -22,5 +22,40 @@ public class Kata
                 return;
             Console.ReadLine();
         }
+
+    }
+    public int IsSolved(int[,] board)
+    {
+        var completed = true;
+        var gamestate = new Dictionary<string, int>()
+        {
+            { "1-i",0 },
+            { "1-j",0 },
+            { "2-i",0 },
+            { "2-j",0 }
+        };
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (board[i,j] == 0)
+                {
+                    completed = false;
+                    continue;
+                }
+                var key = $"{board[i, j]}-i";
+                gamestate[$"{board[i, j]}-i"] += i;
+                gamestate[$"{board[i, j]}-j"] += j;
+            }
+        }
+        foreach(var elem in gamestate)
+        {            
+            if(elem.Value > 3)
+            {
+                return Convert.ToInt32(elem.Key.Substring(0,1));
+            }
+            return completed ? 0 : -1;
+        }
+        return 0;
     }
 }
