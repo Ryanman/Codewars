@@ -16,6 +16,35 @@ public class Kata
         var input = "";
         while (true)
         {
+            _genericInput.Add(new int[,] //Incomplete
+            {
+                { 0,0,1},
+                { 0,1,2},
+                { 2,1,0}
+            });
+            _genericInput.Add(new int[,] //1
+            {
+                { 1,0,1},
+                { 0,1,2},
+                { 2,2,1}
+            });
+            _genericInput.Add(new int[,] //2
+            {
+                { 0,0,2},
+                { 0,1,2},
+                { 1,1,2}
+            });
+            _genericInput.Add(new int[,] //Cat's game
+            {
+                { 1,2,1},
+                { 1,1,2},
+                { 2,1,2}
+            });
+            foreach (var board in _genericInput)
+            {
+                Console.WriteLine(
+                    IsSolved(board));
+            }
             Console.WriteLine($"Enter Number, or E for Exit");
             input = Console.ReadLine();
             if (input == "e")
@@ -24,7 +53,7 @@ public class Kata
         }
 
     }
-    public int IsSolved(int[,] board)
+    public static int IsSolved(int[,] board)
     {
         var completed = true;
         var gamestate = new Dictionary<string, int>()
