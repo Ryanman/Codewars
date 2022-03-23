@@ -16,7 +16,7 @@ public class Kata
         var input = "";
         while (true)
         {
-            _genericInput.Add(new int[,] //Incomplete
+            _genericInput.Add(new int[,] //Incomplete (-1)
             {
                 { 0,0,1},
                 { 0,1,2},
@@ -34,7 +34,7 @@ public class Kata
                 { 0,1,2},
                 { 1,1,2}
             });
-            _genericInput.Add(new int[,] //Cat's game
+            _genericInput.Add(new int[,] //Cat's game (0)
             {
                 { 1,2,1},
                 { 1,1,2},
@@ -56,35 +56,31 @@ public class Kata
     public static int IsSolved(int[,] board)
     {
         var completed = true;
-        var gamestate = new Dictionary<string, int>()
-        {
-            { "1-i",0 },
-            { "1-j",0 },
-            { "2-i",0 },
-            { "2-j",0 }
-        };
+        //var gamestate = new Dictionary<string, int>()
+        //{
+        //    { "1-i",0 },
+        //    { "1-j",0 },
+        //    { "2-i",0 },
+        //    { "2-j",0 }
+        //};
         for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 3; j++)
+            var corner = board[i, i];
+            for (int j = 0; j < 6; j++)
             {
-                if (board[i,j] == 0)
+                var piece = (j >= 3) ?
+                    board[i, j] :
+                    board[j % 3, i];
+                if (piece == 0 || piece != corner)
                 {
-                    completed = false;
-                    continue;
+                    if (piece == 0)
+                        completed = false;
+                    break;
                 }
-                var key = $"{board[i, j]}-i";
-                gamestate[$"{board[i, j]}-i"] += i;
-                gamestate[$"{board[i, j]}-j"] += j;
+                if (piece == corner && j % 3 == 2)
+                    return corner;
             }
         }
-        foreach(var elem in gamestate)
-        {            
-            if(elem.Value > 3)
-            {
-                return Convert.ToInt32(elem.Key.Substring(0,1));
-            }
-            return completed ? 0 : -1;
-        }
-        return 0;
+        return completed ? 0 : -1;
     }
 }
