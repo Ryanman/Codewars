@@ -56,17 +56,15 @@ public class Kata
     public static int IsSolved(int[,] board)
     {
         var completed = true;
-        //var gamestate = new Dictionary<string, int>()
-        //{
-        //    { "1-i",0 },
-        //    { "1-j",0 },
-        //    { "2-i",0 },
-        //    { "2-j",0 }
-        //};
         for (int i = 0; i < 3; i++)
         {
             var corner = board[i, i];
-            for (int j = 0; j < 6; j++)
+            //Check Diagonals
+            if (i == 1
+                && ((board[0, 0] == corner && board[2, 2] == corner)
+                    || (board[2, 0] == corner && board[0, 2] == corner)))
+                return corner;
+            for (int j = 0; j < 9; j++)
             {
                 var piece = (j >= 3) ?
                     board[i, j] :
