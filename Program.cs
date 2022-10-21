@@ -65,25 +65,20 @@ public class Kata
         Console.ReadLine();
     }
 
-    static bool ValidateSolution(int[][] board)//int[][] board
+    public static bool ValidateSolution(int[][] board)
     {
         var map = new Dictionary<Tuple<string, int>, BitArray>();
-        var mapTypes = new string[] { "row","col","square" };
         for (int i = 0; i < 9; i++)
-        {            
-            for(int j = 0; j < 9; j++)
+        {
+            var rowKey = new Tuple<string, int>("row", i);
+            map.TryAdd(rowKey, new BitArray(10,false));
+            for (int j = 0; j < 9; j++)
             {
-                var value = board[i][j];
-                if (i == 0)
-                {
-                    foreach (var mapType in mapTypes)
-                    {
-                        map[new Tuple<string, int>(mapType, j)] = new BitArray(10, false);
-                    }
-                }
-                var rowKey = new Tuple<string, int>("row", i);
+                var value = board[i][j];                
                 var colKey = new Tuple<string, int>("col", j);
+                map.TryAdd(colKey, new BitArray(10));
                 var squareKey = new Tuple<string, int>("square", SquareBoardHash(i, j));
+                map.TryAdd(squareKey, new BitArray(10));
                 if (value == 0
                     || map[rowKey][value] == true
                     || map[colKey][value] == true
@@ -98,8 +93,6 @@ public class Kata
 
     private static int SquareBoardHash(int i, int j)
     {
-        return //i / 3 + 
-            ((i / 3) * 3) + 
-            j / 3;
+        return (i / 3 * 3) + j / 3;
     }
 }
