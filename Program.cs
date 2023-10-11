@@ -74,22 +74,26 @@ public class Kata
         for (int i = 0; i < 3; i++)
         {
             var corner = board[i, i];
+            if (corner == 0)
+                continue;
             //Check Diagonals
             if (i == 1
                 && ((board[0, 0] == corner && board[2, 2] == corner)
                     || (board[2, 0] == corner && board[0, 2] == corner)))
                 return corner;
-            for (int j = 0; j < 9; j++)
+            for (int j = 0; j < 6; j++)
             {
-                var piece = (j >= 3) ?
+                var piece = j < 3 ?
                     board[i, j] :
                     board[j % 3, i];
-                if (piece == 0 || piece != corner)
+
+                if (piece != corner || piece == 0)
                 {
                     if (piece == 0)
                         completed = false;
-                    break;
-                }
+                    j = (j < 3) ? 2 : 5; //Move to next test
+                }                    
+
                 if (piece == corner && j % 3 == 2)
                     return corner;
             }
