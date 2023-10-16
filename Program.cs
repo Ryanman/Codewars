@@ -50,6 +50,10 @@ public class Kata
         if (remainder - square >= 1)
         {
             result = DecomposeHelper(n - 1, remainder - square);
+            if (result[0] == 'N')
+            {
+                result = DecomposeHelper(n - 1, remainder);
+            }
             return $"{result} {n}";
         }   
         else
