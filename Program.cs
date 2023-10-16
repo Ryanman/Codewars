@@ -53,6 +53,7 @@ public class Kata
             if (result[0] == 'N')
             {
                 result = DecomposeHelper(n - 1, remainder);
+                return $"{result}";
             }
             return $"{result} {n}";
         }   
