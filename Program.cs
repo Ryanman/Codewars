@@ -31,8 +31,7 @@ public class Kata
     {
         sb = new StringBuilder();
         var result = DecomposeHelper(n - 1, n * n);
-        if (result.Substring(result.Length - 2, 2) == " 1")
-            return "Nothing";
+        //handle nothing
         return result;
     }
 
@@ -51,6 +50,6 @@ public class Kata
         {            
             result = DecomposeHelper(n - 1, remainder);
             return $"{result}";
-        }        
+        }
     }
 }
