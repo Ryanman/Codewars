@@ -21,7 +21,8 @@ public class Kata
             input = Console.ReadLine();
             if (input == "e")
                 return;
-            Decompose(Convert.ToInt32(input));
+            var result = Decompose(Convert.ToInt32(input));
+            Console.WriteLine(result);
             Console.ReadLine();
         }
     }
@@ -29,8 +30,8 @@ public class Kata
     public static string Decompose(long n)
     {
         sb = new StringBuilder();
-        DecomposeHelper(n - 1, n * n);
-        return "Nothing";
+        var result = DecomposeHelper(n - 1, n * n);
+        return result;
     }
 
     public static string DecomposeHelper (long n, long remainder)
@@ -39,12 +40,12 @@ public class Kata
         if (n < 1) return "Nothing";
         var square = n * n;
         string result;
-        if (remainder - square > 1)
+        if (remainder - square >= 1)
             result = DecomposeHelper(n, remainder - square);
         else
             result = DecomposeHelper(n - 1, remainder);
         if (result == "Nothing") return result;
-        return result + " ";
+        return result + $" {n}";
 
     }
 }
