@@ -31,21 +31,26 @@ public class Kata
     {
         sb = new StringBuilder();
         var result = DecomposeHelper(n - 1, n * n);
+        if (result.Substring(result.Length - 2, 2) == " 1")
+            return "Nothing";
         return result;
     }
 
     public static string DecomposeHelper (long n, long remainder)
     {
-        if (n == 0) return "1";
-        if (n < 1) return "Nothing";
+        //if (n == 0) return "1";
+        if (remainder == 1) return "1";
         var square = n * n;
         string result;
         if (remainder - square >= 1)
+        {
             result = DecomposeHelper(n, remainder - square);
+            return $"{result} {n}";
+        }   
         else
+        {            
             result = DecomposeHelper(n - 1, remainder);
-        if (result == "Nothing") return result;
-        return result + $" {n}";
-
+            return $"{result}";
+        }        
     }
 }
