@@ -37,7 +37,7 @@ public class Kata
     {
         sb = new StringBuilder();
         var result = DecomposeHelper(n - 1, n * n);
-        if (result[0] == 'N')
+        if (result == null)
             return "Nothing";
         return result;
     }
@@ -48,14 +48,14 @@ public class Kata
         if (remainder == 0) return $"{n}";        
         if (n == 1 || remainder < 1)
         {
-            return "Nothing";
+            return null;
         }
         string result;
         result = DecomposeHelper(n - 1, remainder - (n*n));
-        if (result[0] == 'N') //Broken Branch
+        if (result == null) //Broken Branch
         {
             result = DecomposeHelper(n - 1, remainder);
-            return $"{result}";
+            return result;
         }
         return $"{result} {n}";
     }
