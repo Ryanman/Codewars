@@ -35,20 +35,64 @@ public class Kata
 
     public static string decompose(long n)
     {
-        var result = decomposehelper(n - 1, n * n);
-        return result;
+        var remainder = n * n;
+        var nums = new Stack<long>();
+        for (long i = n - 1; i > 0; i--)
+        {            
+            var square = i * i;
+
+            if (remainder - square >= 0)
+            {
+                nums.Push(i);
+                remainder -= square;
+                if (remainder == 0)
+                    break; //Success
+                continue;
+            }
+
+            if (remainder - square < 0)        
+            {                
+                continue;                
+            }
+            if (n == 1)
+            {
+                if (remainder > 0)
+                {
+                    for (int j = 0; j < nums.Count; j++)
+                    {
+                        var num = nums.Pop();
+                        remainder += (num * num);
+                        i = num - 1;
+                    }
+                }
+                return null;
+            }
+        }
+
+        var sb = new StringBuilder();
+        foreach (var item in nums)
+        {
+            sb.Append($"{item} ");
+        }
+        return sb.ToString();
     }
 
-    public static string decomposehelper (long n, long remainder)
-    {
-        if (remainder == 1) return "1";
-        if (remainder == 0) return $"{n}";
-        if (n == 1 || remainder < 1)
-            return null;
-        if (decomposehelper(n - 1, remainder - (n * n)) == null) //Broken Branch
-        {
-            return decomposehelper(n - 1, remainder);
-        }
-        return $"{decomposehelper(n - 1, remainder - (n*n))} {n}";
-    }
+    //public string decompose(long n)
+    //{
+    //    var result = decomposehelper(n - 1, n * n);
+    //    return result;
+    //}
+
+    //public string decomposehelper(long n, long remainder)
+    //{
+    //    if (remainder == 1) return "1";
+    //    if (remainder == 0) return $"{n}";
+    //    if (n == 1 || remainder < 1)
+    //        return null;
+    //    if (decomposehelper(n - 1, remainder - (n * n)) == null) //Broken Branch
+    //    {
+    //        return decomposehelper(n - 1, remainder);
+    //    }
+    //    return $"{decomposehelper(n - 1, remainder - (n * n))} {n}";
+    //}
 }
