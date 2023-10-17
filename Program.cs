@@ -5,7 +5,7 @@ using System.Text;
 
 public class Kata
 {
-    private static int _number;    
+    private static int _remainder;    
     private static double _productSum = 0;
     private static LinkedList<int> _productList = new LinkedList<int>();
     private static LinkedListNode<int> _median;
@@ -24,39 +24,31 @@ public class Kata
 
             //Test Cases
             Console.WriteLine(11);
-            Console.WriteLine(Decompose(11));
+            Console.WriteLine(decompose(11));
             Console.WriteLine(50);
-            Console.WriteLine(Decompose(50));
+            Console.WriteLine(decompose(50));
             Console.WriteLine(4);
-            Console.WriteLine(Decompose(4));
+            Console.WriteLine(decompose(4));
             Console.ReadLine();
         }
     }
 
-    public static string Decompose(long n)
+    public static string decompose(long n)
     {
-        sb = new StringBuilder();
-        var result = DecomposeHelper(n - 1, n * n);
-        if (result == null)
-            return "Nothing";
+        var result = decomposehelper(n - 1, n * n);
         return result;
     }
 
-    public static string DecomposeHelper (long n, long remainder)
+    public static string decomposehelper (long n, long remainder)
     {
         if (remainder == 1) return "1";
-        if (remainder == 0) return $"{n}";        
+        if (remainder == 0) return $"{n}";
         if (n == 1 || remainder < 1)
-        {
             return null;
-        }
-        string result;
-        result = DecomposeHelper(n - 1, remainder - (n*n));
-        if (result == null) //Broken Branch
+        if (decomposehelper(n - 1, remainder - (n * n)) == null) //Broken Branch
         {
-            result = DecomposeHelper(n - 1, remainder);
-            return result;
+            return decomposehelper(n - 1, remainder);
         }
-        return $"{result} {n}";
+        return $"{decomposehelper(n - 1, remainder - (n*n))} {n}";
     }
 }
