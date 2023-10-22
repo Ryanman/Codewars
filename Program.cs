@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -23,57 +24,113 @@ public class Kata
                 return;
 
             //Test Cases
-            //Console.WriteLine(11);
-            //Console.WriteLine(decompose(11));
-            //Console.WriteLine(50);
-            //Console.WriteLine(decompose(50));
+            Console.WriteLine(11);
+            Console.WriteLine(decompose(11));
+            Console.WriteLine(50);
+            Console.WriteLine(decompose(50));
             Console.WriteLine(4);
             Console.WriteLine(decompose(4));
-            Console.ReadLine();
+
+            var sw = new Stopwatch();
+
+            sw.Start();
+            for (int i = 0; i < 100000; i++)
+            {
+                decompose(i);
+            }
+            sw.Stop();
+            Console.WriteLine($"Total Time: {sw.ElapsedMilliseconds}");
+            sw.Restart();
+            for (int i = 0; i < 100000; i++)
+            {
+                decomposeNoRungs(i);
+            }
+            sw.Stop();
+            Console.WriteLine($"Total Time (no rungs): {sw.ElapsedMilliseconds}");
         }
     }
 
     public static string decompose(long n)
     {
         var remainder = n * n;
+        /*I would like to be formally on the record as saying we could use the StringBuilder 
+         * as our stack and that anyone who does that is a horrible person*/
         var nums = new Stack<long>();
         for (long i = n - 1; i > 0; i--)
         {            
             var square = i * i;
 
-            if (remainder - square >= 0)
+            if (remainder - square < 0)
+                continue;
+            
+            remainder -= square;
+            if (remainder == 0)
             {
-                remainder -= square;
-                if (remainder == 0)
-                {
-                    nums.Push(i);
-                    break;//Success
-                }
-                if (i == 1 && nums.Count > 0) // Bad Branch
-                {
-                    var num = nums.Pop();
-                    remainder += (num * num) + 1;
-                    i = num;
-                    continue;
-                }
                 nums.Push(i);
+                break;//Success
+            }
+            if (i == 1 && nums.Count > 0) //Bad Branch
+            {
+                var num = nums.Pop();
+                remainder += (num * num) + 1;
+                i = num;
                 continue;
             }
-            if (remainder - square < 0)        
-            {                
-                continue;                
-            }
+            nums.Push(i);
+            //NextRung - without this operation, performance on high numbers is significantly degraded
+            long nextRung = ((long)Math.Floor(Math.Sqrt(remainder)) + 1);
+            i = Math.Min(i, nextRung);
+            continue;
         }
-
-        if (remainder != 0)
-            return null;
 
         var sb = new StringBuilder();
         foreach (var item in nums)
         {
             sb.Append($"{item} ");
         }
-        return sb.ToString();
+        return (remainder == 0) ? 
+            sb.ToString() 
+            : null;
+    }
+
+    public static string decomposeNoRungs(long n)
+    {
+        var remainder = n * n;
+        /*I would like to be formally on the record as saying we could use the StringBuilder 
+         * as our stack and that anyone who does that is a horrible person*/
+        var nums = new Stack<long>();
+        for (long i = n - 1; i > 0; i--)
+        {
+            var square = i * i;
+
+            if (remainder - square < 0)
+                continue;
+
+            remainder -= square;
+            if (remainder == 0)
+            {
+                nums.Push(i);
+                break;//Success
+            }
+            if (i == 1 && nums.Count > 0) //Bad Branch
+            {
+                var num = nums.Pop();
+                remainder += (num * num) + 1;
+                i = num;
+                continue;
+            }
+            nums.Push(i);
+            continue;
+        }
+
+        var sb = new StringBuilder();
+        foreach (var item in nums)
+        {
+            sb.Append($"{item} ");
+        }
+        return (remainder == 0) ?
+            sb.ToString()
+            : null;
     }
 
     //public string decompose(long n)
