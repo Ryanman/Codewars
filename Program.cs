@@ -43,30 +43,27 @@ public class Kata
 
             if (remainder - square >= 0)
             {
-                nums.Push(i);
                 remainder -= square;
                 if (remainder == 0)
-                    break; //Success
+                {
+                    nums.Push(i);
+                    break;//Success
+                }
+                if (i == 1) // Bad Branch
+                {
+                    var num = nums.Pop();
+                    remainder += (num * num) + 1;
+                    i = num;
+                    continue;
+                }
+                nums.Push(i);
                 continue;
             }
-
             if (remainder - square < 0)        
             {                
                 continue;                
             }
-            if (n == 1)
-            {
-                if (remainder > 0)
-                {
-                    for (int j = 0; j < nums.Count; j++)
-                    {
-                        var num = nums.Pop();
-                        remainder += (num * num);
-                        i = num - 1;
-                    }
-                }
-                return null;
-            }
+            return null;//We'll go to 0 next and so we're done
         }
 
         var sb = new StringBuilder();
