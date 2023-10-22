@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
 
 public class Kata
@@ -31,22 +29,22 @@ public class Kata
             Console.WriteLine(4);
             Console.WriteLine(decompose(4));
 
-            var sw = new Stopwatch();
+            //var sw = new Stopwatch();
 
-            sw.Start();
-            for (int i = 0; i < 100000; i++)
-            {
-                decompose(i);
-            }
-            sw.Stop();
-            Console.WriteLine($"Total Time: {sw.ElapsedMilliseconds}");
-            sw.Restart();
-            for (int i = 0; i < 100000; i++)
-            {
-                decomposeNoRungs(i);
-            }
-            sw.Stop();
-            Console.WriteLine($"Total Time (no rungs): {sw.ElapsedMilliseconds}");
+            //sw.Start();
+            //for (int i = 0; i < 100000; i++)
+            //{
+            //    decompose(i);
+            //}
+            //sw.Stop();
+            //Console.WriteLine($"Total Time: {sw.ElapsedMilliseconds}");
+            //sw.Restart();
+            //for (int i = 0; i < 100000; i++)
+            //{
+            //    decomposeNoRungs(i);
+            //}
+            //sw.Stop();
+            //Console.WriteLine($"Total Time (no rungs): {sw.ElapsedMilliseconds}");
         }
     }
 
@@ -59,17 +57,8 @@ public class Kata
         for (long i = n - 1; i > 0; i--)
         {            
             var square = i * i;
-
-            if (remainder - square < 0)
-                continue;
-            
             remainder -= square;
-            if (remainder == 0)
-            {
-                nums.Push(i);
-                break;//Success
-            }
-            if (i == 1 && nums.Count > 0) //Bad Branch
+            if (i == 1 && nums.Count > 0 && remainder != 0) //Bad Branch
             {
                 var num = nums.Pop();
                 remainder += (num * num) + 1;
@@ -77,6 +66,8 @@ public class Kata
                 continue;
             }
             nums.Push(i);
+            if (remainder == 0)
+                break;
             //NextRung - without this operation, performance on high numbers is significantly degraded
             long nextRung = ((long)Math.Floor(Math.Sqrt(remainder)) + 1);
             i = Math.Min(i, nextRung);
@@ -85,9 +76,8 @@ public class Kata
 
         var sb = new StringBuilder();
         foreach (var item in nums)
-        {
             sb.Append($"{item} ");
-        }
+        sb.Remove(sb.Length - 1, 1);
         return (remainder == 0) ? 
             sb.ToString() 
             : null;
@@ -129,7 +119,7 @@ public class Kata
             sb.Append($"{item} ");
         }
         return (remainder == 0) ?
-            sb.ToString()
+            sb.ToString().Trim()
             : null;
     }
 
