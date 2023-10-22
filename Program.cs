@@ -23,10 +23,10 @@ public class Kata
                 return;
 
             //Test Cases
-            Console.WriteLine(11);
-            Console.WriteLine(decompose(11));
-            Console.WriteLine(50);
-            Console.WriteLine(decompose(50));
+            //Console.WriteLine(11);
+            //Console.WriteLine(decompose(11));
+            //Console.WriteLine(50);
+            //Console.WriteLine(decompose(50));
             Console.WriteLine(4);
             Console.WriteLine(decompose(4));
             Console.ReadLine();
@@ -49,7 +49,7 @@ public class Kata
                     nums.Push(i);
                     break;//Success
                 }
-                if (i == 1) // Bad Branch
+                if (i == 1 && nums.Count > 0) // Bad Branch
                 {
                     var num = nums.Pop();
                     remainder += (num * num) + 1;
@@ -63,8 +63,10 @@ public class Kata
             {                
                 continue;                
             }
-            return null;//We'll go to 0 next and so we're done
         }
+
+        if (remainder != 0)
+            return null;
 
         var sb = new StringBuilder();
         foreach (var item in nums)
